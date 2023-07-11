@@ -1,0 +1,193 @@
+{
+	"info": {
+		"_postman_id": "5037358d-20cf-481a-819d-fb0493866ec4",
+		"name": "swagger pet module Copy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28327923"
+	},
+	"item": [
+		{
+			"name": "CREATE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var resposeBody = pm.response.json()\r",
+							"console.log(resposeBody.id)\r",
+							"pm.collectionVariables.set(\"idcreate\",resposeBody.id)\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{id}}\",\r\n  \"category\": {\r\n    \"id\": \"{{category/id}}\",\r\n    \"name\": \"{{category/name}}\"\r\n  },\r\n  \"name\": \"{{name}}\",\r\n  \"photoUrls\": [\r\n    \"string\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": \"{{tags/0/id}}\",\r\n      \"name\": \"{{tags/0/name}}\"\r\n    }\r\n  ],\r\n  \"status\": \"available\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}",
+					"host": [
+						"{{base_url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATEIDNAMESTATUS",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "{{$randomFirstName}}",
+							"type": "text"
+						},
+						{
+							"key": "status",
+							"value": "available",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/{{idcreate}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"{{idcreate}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PETOBJECTSTHATNEEDSTOBEADDEDTOTHESTORE",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{idcreate}}\",\r\n  \"category\": {\r\n    \"id\": \"{{$randomInt}}\",\r\n    \"name\": \"{{$randomFirstName}}\"\r\n  },\r\n  \"name\": \"{{$randomFirstName}}\",\r\n  \"photoUrls\": [\r\n    \"string\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": \"{{$randomInt}}\",\r\n      \"name\": \"{{$randomFirstName}}\"\r\n    }\r\n  ],\r\n  \"status\": \"available\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}",
+					"host": [
+						"{{base_url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FINDPETBYID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/{{idcreate}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"{{idcreate}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deletepetid",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "api_key",
+						"value": "deleting"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/{{idcreate}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"{{idcreate}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "idcreate",
+			"value": ""
+		}
+	]
+}
