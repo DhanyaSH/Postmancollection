@@ -1,0 +1,478 @@
+{
+	"info": {
+		"_postman_id": "4eab4c14-e1d9-465f-a4ec-1309a22d81ad",
+		"name": "swagger pet module with Testadded",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "28327923"
+	},
+	"item": [
+		{
+			"name": "CREATE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseBody = pm.response.json();\r",
+							"\r",
+							"pm.test('Status code is  200', function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test('Response time is less than 200ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"})\r",
+							"\r",
+							"pm.test('Id is created', function () {\r",
+							"    pm.expect(pm.collectionVariables.get('idcreate')).to.exist;\r",
+							"    pm.collectionVariables.set('idcreate', responseBody.id);\r",
+							"})\r",
+							"\r",
+							"pm.test('Existence Assertion', function () {\r",
+							"    pm.expect(responseBody.category.name).to.exist;\r",
+							"    pm.expect(responseBody.name).to.exist;\r",
+							"})\r",
+							"\r",
+							"pm.test('Content-Type header is present', function () {\r",
+							"    pm.response.to.have.header('Content-Type');\r",
+							"})\r",
+							"\r",
+							"var schema = {\r",
+							"    'type': 'object',\r",
+							"    'properties': {\r",
+							"        'id': { 'type': 'integer' },\r",
+							"        'category': {\r",
+							"            'type': 'object',\r",
+							"            'properties': {\r",
+							"                'id': { 'type': 'integer' },\r",
+							"                'name': { 'type': 'string' }\r",
+							"            },\r",
+							"            'required': [\r",
+							"                'id',\r",
+							"                'name'\r",
+							"            ]\r",
+							"        },\r",
+							"        'name': { 'type': 'string' },\r",
+							"        'photoUrls': {\r",
+							"            'type': 'array',\r",
+							"            'items': [{ 'type': 'string' }]\r",
+							"        },\r",
+							"        'tags': {\r",
+							"            'type': 'array',\r",
+							"            'items': [{\r",
+							"                'type': 'object',\r",
+							"                'properties': {\r",
+							"                    'id': { 'type': 'integer' },\r",
+							"                    'name': { 'type': 'string' }\r",
+							"                },\r",
+							"                'required': [\r",
+							"                    'id',\r",
+							"                    'name'\r",
+							"                ]\r",
+							"            }]\r",
+							"        },\r",
+							"        'status': { 'type': 'string' }\r",
+							"    },\r",
+							"    'required': [\r",
+							"        'id',\r",
+							"        'category',\r",
+							"        'name',\r",
+							"        'photoUrls',\r",
+							"        'tags',\r",
+							"        'status'\r",
+							"    ]\r",
+							"};\r",
+							"\r",
+							"pm.test('Schema is valid', function () {\r",
+							"    pm.expect(tv4.validate(responseBody, schema)).to.be.true;\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 95,\r\n  \"category\": {\r\n    \"id\": 0,\r\n    \"name\": \"roma\"\r\n  },\r\n  \"name\": \"doggie\",\r\n  \"photoUrls\": [\r\n    \"string\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": 0,\r\n      \"name\": \"string\"\r\n    }\r\n  ],\r\n  \"status\": \"available\"\r\n}"
+				},
+				"url": "{{base_url}}"
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATEIDNAMESTATUS",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseBody = pm.response.json();\r",
+							"\r",
+							"pm.test('Equality Assertion', function () {\r",
+							"    pm.expect(responseBody.code).to.equal(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Type Assertion\", function () {\r",
+							"    pm.expect(responseBody.message).to.be.a(\"string\");\r",
+							"})\r",
+							"\r",
+							"pm.test('Response time is less than 200ms', function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "roma1",
+							"type": "text"
+						},
+						{
+							"key": "status",
+							"value": "available",
+							"type": "text"
+						}
+					]
+				},
+				"url": "{{base_url}}/{{idcreate}}"
+			},
+			"response": []
+		},
+		{
+			"name": "PETOBJECTSTHATNEEDSTOBEADDEDTOTHESTORE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseBody = pm.response.json();\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Existence Assertion\",function (){\r",
+							"pm.expect(responseBody.id).to.exist\r",
+							"pm.expect(responseBody.category.name).to.exist\r",
+							"pm.expect(responseBody.name).to.exist\r",
+							"\r",
+							"})\r",
+							"var schema = {\r",
+							"  \"type\": \"object\",\r",
+							"  \"properties\": {\r",
+							"    \"id\": {\r",
+							"      \"type\": \"integer\"\r",
+							"    },\r",
+							"    \"category\": {\r",
+							"      \"type\": \"object\",\r",
+							"      \"properties\": {\r",
+							"        \"id\": {\r",
+							"          \"type\": \"integer\"\r",
+							"        },\r",
+							"        \"name\": {\r",
+							"          \"type\": \"string\"\r",
+							"        }\r",
+							"      },\r",
+							"      \"required\": [\r",
+							"        \"id\",\r",
+							"        \"name\"\r",
+							"      ]\r",
+							"    },\r",
+							"    \"name\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"photoUrls\": {\r",
+							"      \"type\": \"array\",\r",
+							"      \"items\": [\r",
+							"        {\r",
+							"          \"type\": \"string\"\r",
+							"        }\r",
+							"      ]\r",
+							"    },\r",
+							"    \"tags\": {\r",
+							"      \"type\": \"array\",\r",
+							"      \"items\": [\r",
+							"        {\r",
+							"          \"type\": \"object\",\r",
+							"          \"properties\": {\r",
+							"            \"id\": {\r",
+							"              \"type\": \"integer\"\r",
+							"            },\r",
+							"            \"name\": {\r",
+							"              \"type\": \"string\"\r",
+							"            }\r",
+							"          },\r",
+							"          \"required\": [\r",
+							"            \"id\",\r",
+							"            \"name\"\r",
+							"          ]\r",
+							"        }\r",
+							"      ]\r",
+							"    },\r",
+							"    \"status\": {\r",
+							"      \"type\": \"string\"\r",
+							"    }\r",
+							"  },\r",
+							"  \"required\": [\r",
+							"    \"id\",\r",
+							"    \"category\",\r",
+							"    \"name\",\r",
+							"    \"photoUrls\",\r",
+							"    \"tags\",\r",
+							"    \"status\"\r",
+							"  ]\r",
+							"}\r",
+							"\r",
+							"pm.test('Schema is valid', function () {\r",
+							"    pm.expect(tv4.validate(responseBody, schema)).to.be.true;\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 35 ,\r\n  \"category\": {\r\n    \"id\": 0,\r\n    \"name\": \"aadil\"\r\n  },\r\n  \"name\": \"aadil\",\r\n  \"photoUrls\": [\r\n    \"string\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": \"35\",\r\n      \"name\": \"aadiltag\"\r\n    }\r\n  ],\r\n  \"status\": \"available\"\r\n}"
+				},
+				"url": "{{base_url}}"
+			},
+			"response": []
+		},
+		{
+			"name": "FINDPETBYID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseBody = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Existence Assertion\", function () {\r",
+							"    pm.expect(responseBody.id).to.exist;\r",
+							"    pm.expect(responseBody.category.name).to.exist;\r",
+							"    pm.expect(responseBody.name).to.exist;\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.test('Status code is  200', function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"var schema = {\r",
+							"\r",
+							"    \"type\": \"object\",\r",
+							"    \"properties\": {\r",
+							"        \"id\": {\r",
+							"            \"type\": \"integer\"\r",
+							"        },\r",
+							"        \"category\": {\r",
+							"            \"type\": \"object\",\r",
+							"            \"properties\": {\r",
+							"                \"id\": {\r",
+							"                    \"type\": \"integer\"\r",
+							"                },\r",
+							"                \"name\": {\r",
+							"                    \"type\": \"string\"\r",
+							"                }\r",
+							"            },\r",
+							"            \"required\": [\r",
+							"                \"id\",\r",
+							"                \"name\"\r",
+							"            ]\r",
+							"        },\r",
+							"        \"name\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"photoUrls\": {\r",
+							"            \"type\": \"array\",\r",
+							"            \"items\": [\r",
+							"                {\r",
+							"                    \"type\": \"string\"\r",
+							"                }\r",
+							"            ]\r",
+							"        },\r",
+							"        \"tags\": {\r",
+							"            \"type\": \"array\",\r",
+							"            \"items\": [\r",
+							"                {\r",
+							"                    \"type\": \"object\",\r",
+							"                    \"properties\": {\r",
+							"                        \"id\": {\r",
+							"                            \"type\": \"integer\"\r",
+							"                        },\r",
+							"                        \"name\": {\r",
+							"                            \"type\": \"string\"\r",
+							"                        }\r",
+							"                    },\r",
+							"                    \"required\": [\r",
+							"                        \"id\",\r",
+							"                        \"name\"\r",
+							"                    ]\r",
+							"                }\r",
+							"            ]\r",
+							"        },\r",
+							"        \"status\": {\r",
+							"            \"type\": \"string\"\r",
+							"        }\r",
+							"    },\r",
+							"    \"required\": [\r",
+							"        \"id\",\r",
+							"        \"category\",\r",
+							"        \"name\",\r",
+							"        \"photoUrls\",\r",
+							"        \"tags\",\r",
+							"        \"status\"\r",
+							"    ]\r",
+							"};\r",
+							"\r",
+							"pm.test('Schema is valid', function () {\r",
+							"    pm.expect(tv4.validate(responseBody, schema)).to.be.true;\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"verify data\", function () {\r",
+							"    pm.expect(responseBody.code).to.eql(1);\r",
+							"    pm.expect(responseBody.type).to.eql(\"error\");\r",
+							"    pm.expect(responseBody.message).to.eql(\"Pet not found\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test('Status code is  404 Not found pet is deleted', function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					}
+				],
+				"url": "{{base_url}}/{{idcreate}}"
+			},
+			"response": []
+		},
+		{
+			"name": "deletepetid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseBody = pm.response.json();\r",
+							"\r",
+							"pm.test('Equality Assertion', function () {\r",
+							"    pm.expect(responseBody.code).to.equal(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Type Assertion\", function () {\r",
+							"    pm.expect(responseBody.message).to.be.a(\"string\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "api_key",
+						"value": "deleting"
+					}
+				],
+				"url": "{{base_url}}/{{idcreate}}"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "idcreate",
+			"value": ""
+		}
+	]
+}
